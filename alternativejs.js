@@ -15,8 +15,9 @@ var picContainer = document.getElementById('pic-container');
 
 // Global variables
 // -----------------
-  var allProducts = [];
+var allProducts = [];
 var names = ['bag', 'banana',];
+var clickCounter = 0;
 // Constructor
 // -----------------
 function Product(name, filepath) {
@@ -46,7 +47,7 @@ console.table(allProducts);
 // ++++++++++++++++++++++++++++
 //
 function rand() {
-  return Math.random(Math.floor)*allProducts.length;
+  return (Math.random(Math.floor)*allProducts.length);
   // generate a random number between 0 and allProducts.length
 }
 
@@ -57,6 +58,13 @@ function preventDupes() {
 }
 
 function showThreePics() {
+  makeArrayOfThreeNumbers();
+  left.src = allProducts[newArray[0]].filepath;
+  allProducts [newArray[0]].views+=1;
+  center.src = allProducts[newArray[1]].filepath;
+  allProducts [newArray[1]].views+=1;
+  right.src = allProducts[newArray[2]].filepath;
+  allProducts [newArray[2]].views += 1;
   // this will place three new images on the page
 }
 
@@ -67,14 +75,35 @@ function renderList() {
 function handleClick(event) {
   event.preventDefault();
   // identify who was clicked
-  // tally the click
-  // display 3 new images
-  // prevent duplicates
-  // alert for clicks not on images
-  // clear old images
-  // check whether total clicks <25
+
+  //alert for clicks on images
+  if (event.target.id === 'pic-container');{
+    return('click on a picture,not the background!!!');
+    console.log('CLICK ON DEE PICKLETURES!');
+  }
+  if (event.target.id === 'left'){
+    allProducts[newArray[0]] += 1;
+    console.log(allProducts[newArray[0]]);
+  }
+  if (event.target.id === 'center'){
+    allProducts[newArray[0]] += 1;
+    console.log(allProducts[newArray[0]]);
+  }
+  if (event.target.id === 'right'){
+    allProducts[newArray[0]] += 1;
+    console.log(allProducts[newArray[0]]);
+  }
+
+  clickCounter += 1;
+    // check whether total clicks <25
+    if (clickCounter < 5) {
+      return alert('You outta clicks!');
+    }
   // after 25, remove event listeners on picNames
   // after 25, show "Results" button
+    // clear old images
+    showThreePics();
+    console.log(event.target.src, 'was clicked');
 }
 // ++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++
