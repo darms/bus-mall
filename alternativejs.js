@@ -3,6 +3,8 @@
 // ++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++
 // DATA SETUP
+var newArray = [];
+var oldArray = [];
 // ++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++
 
@@ -16,11 +18,11 @@ var picContainer = document.getElementById('pic-container');
 // Global variables
 // -----------------
 var allProducts = [];
-var names = ['bag', 'banana',];
+var names = ['bag', 'banana','bathroom', 'boots','breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 var clickCounter = 0;
 // Constructor
 // -----------------
-function Product(name, filepath) {
+function Product(name, filepath, clicks, views) {
   this.name = name;
   this.filepath = 'img/' + name + '.jpg';
   this.clicks = 0;
@@ -30,15 +32,15 @@ function Product(name, filepath) {
 
 // Instances
 // -----------------
-new Product ('bag', 'img/bag.jpg');
-new Product ('banana');
+// new Product ('bag');
+// new Product ('banana');
 
 
-
-for (var = i; i=0; i<names.length; i++) {
+for (var i= 0; i < names.length; i++) {
   new Product(names[i]);
+  // console.table(allProducts);
 }
-console.table(allProducts);
+
 // ++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++
 // DECLARE FUNCTIONS
@@ -47,22 +49,54 @@ console.table(allProducts);
 // ++++++++++++++++++++++++++++
 //
 function rand() {
-  return (Math.random(Math.floor)*allProducts.length);
-  // generate a random number between 0 and allProducts.length
-}
+  return Math.floor(Math.random()* names.length);
+  }
 
-function preventDupes() {
-  // logic to prevent duplicates
-  // duplicates with prior set of images
-  // duplicates within the current set of images
+// function preventDupes() {
+  function makeArrayOfThreeNumbers () {
+    oldArray[0] = newArray[0];
+    oldArray[1] = newArray[1];
+    oldArray[2] = newArray[2];
+
+
+    newArray[0] = rand();
+    while (newArray[0] === oldArray[0] || newArray[0] === oldArray[1] ||
+    newArray[0] === newArray[2]){
+      // console.log( newArray ,'broken value in 1st position in new array');
+      newArray[0] = rand ();
+      // console.log('fixed');
+    }
+    newArray[1] = rand();
+    while (newArray[0] === newArray[1]) {
+      newArray[1] = rand();
+      // console.log('caught dupes between 1st & 2nd numbers');
+    }
+    newArray[2] = rand();
+    while (newArray[2] === newArray[0] || newArray[2] === newArray[1]){
+      // console.log(newArray, 'old broken array');
+      newArray[2] = rand();
+    // console.log('caught a dupe with the 3rd number');
+    }
+
+  }
+
+  makeArrayOfThreeNumbers();
+  // console.log( newArray , 'new array');
+  // console.log(  oldArray , 'old Array');
+
+  for(var i = 0; i <10; i++) {
+    makeArrayOfThreeNumbers();
+    // console.log('----NEW RUN OF MAKING AN ARRAY-----');
+    // console.log( oldArray,' old array');
+    // console.log( newArray, 'new Array');
 }
 
 function showThreePics() {
   makeArrayOfThreeNumbers();
   left.src = allProducts[newArray[0]].filepath;
-  allProducts [newArray[0]].views+=1;
+  allProducts [newArray[0]].views +=1;
   center.src = allProducts[newArray[1]].filepath;
-  allProducts [newArray[1]].views+=1;
+  allProducts [newArray[1]].views +=1;
   right.src = allProducts[newArray[2]].filepath;
   allProducts [newArray[2]].views += 1;
   // this will place three new images on the page
@@ -73,38 +107,44 @@ function renderList() {
 }
 
 function handleClick(event) {
+  // console.log(event.target);
   event.preventDefault();
-  // identify who was clicked
-
   //alert for clicks on images
-  if (event.target.id === 'pic-container');{
-    return('click on a picture,not the background!!!');
-    console.log('CLICK ON DEE PICKLETURES!');
+  if (event.target.id === 'pic-container'){
+    return  alert('click on a picture,not the background!!!');
   }
+
   if (event.target.id === 'left'){
-    allProducts[newArray[0]] += 1;
-    console.log(allProducts[newArray[0]]);
+    allProducts[newArray[0]].clicks += 1;
+  console.log(allProducts[newArray[0]].name+ ' has ' +allProducts[newArray[0]].clicks + ' clicks.');
   }
   if (event.target.id === 'center'){
-    allProducts[newArray[0]] += 1;
-    console.log(allProducts[newArray[0]]);
+    allProducts[newArray[1]].clicks += 1;
+      console.log(allProducts[newArray[1]].name+ ' has ' +allProducts[newArray[1]].clicks + ' clicks.');
   }
   if (event.target.id === 'right'){
-    allProducts[newArray[0]] += 1;
-    console.log(allProducts[newArray[0]]);
+    allProducts[newArray[2]].clicks += 1;
+    console.log(allProducts[newArray[2]].name+ ' has ' +allProducts[newArray[2]].clicks + ' clicks.');
+
   }
 
   clickCounter += 1;
+  console.log(clickCounter, 'total clicks');
+  if (clickCounter > 24){
+    picContainer.removeEventListener('click', handleClick);
+    return alert('No more clicks for you!');
+  }
     // check whether total clicks <25
-    if (clickCounter < 5) {
-      return alert('You outta clicks!');
-    }
+    // if (clickCounter > 5) {
+      // return alert('You outta clicks!');
+    // }
+    // console.log(event.target.src, 'was clicked');
+        showThreePics();
+}
   // after 25, remove event listeners on picNames
   // after 25, show "Results" button
     // clear old images
-    showThreePics();
-    console.log(event.target.src, 'was clicked');
-}
+
 // ++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++
 // CODE THAT RUNS ON PAGE LOAD
@@ -113,4 +153,4 @@ function handleClick(event) {
 // ++++++++++++++++++++++++++++
 
 showThreePics();
-picContainer.allEventListener('click', handleClick);
+picContainer.addEventListener('click', handleClick);
