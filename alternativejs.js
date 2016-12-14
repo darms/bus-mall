@@ -23,6 +23,8 @@ var clickCounter = 0;
 var results = document.getElementById('results');
 var resultButton = document.createElement('button');
 resultButton.textContent = "See Results";
+var stats = document.getElementById('stats');
+
 // Constructor
 // -----------------
 function Product(name, filepath, clicks, views) {
@@ -104,9 +106,18 @@ function showThreePics() {
   allProducts [newArray[2]].views += 1;
   // this will place three new images on the page
 }
-
-function renderList() {
   // display a list of items and total clicks/views
+function renderList(event) {
+  event.preventDefault();
+  for ( var i = 0; i < allProducts.length; i++){
+    var liEl = document.createElement('li');
+
+    liEl.textContent = allProducts[i].name + ' has ' +
+    allProducts[i].views +' views and ' + allProducts[i].clicks + ' clicks.';
+    console.log(allProducts[i].name + ' has ' +
+        allProducts[i].views +' views and ' + allProducts[i].clicks + ' clicks');
+    stats.appendChild(liEl);
+  }
 }
 
 function handleClick(event) {
@@ -159,3 +170,4 @@ function handleClick(event) {
 
 showThreePics();
 picContainer.addEventListener('click', handleClick);
+resultButton.addEventListener('click', renderList);
