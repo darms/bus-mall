@@ -20,6 +20,9 @@ var picContainer = document.getElementById('pic-container');
 var allProducts = [];
 var names = ['bag', 'banana','bathroom', 'boots','breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 var clickCounter = 0;
+var results = document.getElementById('results');
+var resultButton = document.createElement('button');
+resultButton.textContent = "See Results";
 // Constructor
 // -----------------
 function Product(name, filepath, clicks, views) {
@@ -130,8 +133,10 @@ function handleClick(event) {
 
   clickCounter += 1;
   console.log(clickCounter, 'total clicks');
-  if (clickCounter > 24){
+  if (clickCounter > 3){
+    results.appendChild(resultButton);
     picContainer.removeEventListener('click', handleClick);
+
     return alert('No more clicks for you!');
   }
     // check whether total clicks <25
