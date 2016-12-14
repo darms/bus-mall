@@ -144,7 +144,7 @@ function handleClick(event) {
 
   clickCounter += 1;
   console.log(clickCounter, 'total clicks');
-  if (clickCounter > 3){
+  if (clickCounter > 24){
     results.appendChild(resultButton);
     picContainer.removeEventListener('click', handleClick);
 
