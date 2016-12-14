@@ -20,6 +20,11 @@ var picContainer = document.getElementById('pic-container');
 var allProducts = [];
 var names = ['bag', 'banana','bathroom', 'boots','breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 var clickCounter = 0;
+var results = document.getElementById('results');
+var resultButton = document.createElement('button');
+resultButton.textContent = "See Results";
+var stats = document.getElementById('stats');
+
 // Constructor
 // -----------------
 function Product(name, filepath, clicks, views) {
@@ -101,9 +106,18 @@ function showThreePics() {
   allProducts [newArray[2]].views += 1;
   // this will place three new images on the page
 }
-
-function renderList() {
   // display a list of items and total clicks/views
+function renderList(event) {
+  event.preventDefault();
+  for ( var i = 0; i < allProducts.length; i++){
+    var liEl = document.createElement('li');
+
+    liEl.textContent = allProducts[i].name + ' has ' +
+    allProducts[i].views +' views and ' + allProducts[i].clicks + ' clicks.';
+    console.log(allProducts[i].name + ' has ' +
+        allProducts[i].views +' views and ' + allProducts[i].clicks + ' clicks');
+    stats.appendChild(liEl);
+  }
 }
 
 function handleClick(event) {
@@ -130,8 +144,10 @@ function handleClick(event) {
 
   clickCounter += 1;
   console.log(clickCounter, 'total clicks');
-  if (clickCounter > 24){
+  if (clickCounter > 3){
+    results.appendChild(resultButton);
     picContainer.removeEventListener('click', handleClick);
+
     return alert('No more clicks for you!');
   }
     // check whether total clicks <25
@@ -154,3 +170,4 @@ function handleClick(event) {
 
 showThreePics();
 picContainer.addEventListener('click', handleClick);
+resultButton.addEventListener('click', renderList);
