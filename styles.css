@@ -5,3 +5,13 @@ img{
   width: 25%;
   margin: 30px;
 }
+header{
+  font-family: 'Amatic SC', cursive;
+  font-size: 60px;
+  text-align: center;
+}
+
+h2{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 36px;
+}
