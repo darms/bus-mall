@@ -1,19 +1,18 @@
 'use strict';
 
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
-// DATA SETUP
+
 var newArray = [];
 var oldArray = [];
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
 
-// DOM variables
+var titles = [];
+var votes = [];
 // -----------------
 var picContainer = document.getElementById('pic-container');
   var left = document.getElementById('left');
   var center = document.getElementById('center');
   var right = document.getElementById('right');
+var myChart = document.getElementById("myChart").getContext("2d");
+var resultsButton = document.getElementById('getResults');
 
 // Global variables
 // -----------------
@@ -21,8 +20,8 @@ var allProducts = [];
 var names = ['bag', 'banana','bathroom', 'boots','breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 var clickCounter = 0;
 var results = document.getElementById('results');
-var resultButton = document.createElement('button');
-resultButton.textContent = "See Results";
+// var resultButton = document.createElement('button');
+// resultButton.textContent = "See Results";
 var stats = document.getElementById('stats');
 
 // Constructor
@@ -35,29 +34,18 @@ function Product(name, filepath, clicks, views) {
   allProducts.push(this);
 }
 
-// Instances
-// -----------------
-// new Product ('bag');
-// new Product ('banana');
 
 
 for (var i= 0; i < names.length; i++) {
   new Product(names[i]);
-  // console.table(allProducts);
+
 }
 
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
-// DECLARE FUNCTIONS
-// (DEFINE ACTIONS)
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
-//
 function rand() {
   return Math.floor(Math.random()* names.length);
   }
 
-// function preventDupes() {
+
   function makeArrayOfThreeNumbers () {
     oldArray[0] = newArray[0];
     oldArray[1] = newArray[1];
@@ -91,9 +79,6 @@ function rand() {
 
   for(var i = 0; i <10; i++) {
     makeArrayOfThreeNumbers();
-    // console.log('----NEW RUN OF MAKING AN ARRAY-----');
-    // console.log( oldArray,' old array');
-    // console.log( newArray, 'new Array');
 }
 
 function showThreePics() {
@@ -142,32 +127,116 @@ function handleClick(event) {
 
   }
 
+  function makeButton(){
+    resultsButton.style.display = 'block';
+
+  }
+
   clickCounter += 1;
   console.log(clickCounter, 'total clicks');
   if (clickCounter > 24){
-    results.appendChild(resultButton);
+    // results.appendChild(resultButton);
+    makeButton();
     picContainer.removeEventListener('click', handleClick);
-
     return alert('No more clicks for you!');
   }
-    // check whether total clicks <25
-    // if (clickCounter > 5) {
-      // return alert('You outta clicks!');
-    // }
-    // console.log(event.target.src, 'was clicked');
+
         showThreePics();
 }
-  // after 25, remove event listeners on picNames
-  // after 25, show "Results" button
-    // clear old images
+//Canvas Stuffs
+function getChartData (){
+for ( i =0; i < allProducts.length; i++){
+  titles[i] = allProducts[i].name;
+  votes[i] = allProducts[i].clicks;
+}}
 
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
-// CODE THAT RUNS ON PAGE LOAD
-// (EXECUTE ACTIONS)
-// ++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++
+
+var data = {
+    labels: titles, // pulling from product names
+    datasets: [
+        {
+            label: "My First dataset",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1,
+            data: votes,
+        }
+    ]
+};
+
+function drawChart(){
+  new Chart(myChart, {
+    type: "bar",
+    data: data,
+    options: {
+      responsive: false,
+      title: {
+        display: true,
+        text: 'Clicks Per Item'
+      },
+      legend: {
+        display: false
+      }
+        // scales: {
+        //     xAxes: [{
+        //         stacked: true
+        //     }],
+        //     // yAxes: [{
+            //     stacked: true
+            // }]
+        // }
+    }
+});
+}
+
+function magicChart() {
+  getChartData();
+  drawChart();
+
+}
 
 showThreePics();
 picContainer.addEventListener('click', handleClick);
-resultButton.addEventListener('click', renderList);
+resultsButton.addEventListener('click', magicChart);
