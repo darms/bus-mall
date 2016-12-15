@@ -1,6 +1,7 @@
-/**{
+*{
   text-align: center;
-}*/
+  background-color: #bfefec;
+}
 img{
   height: 280px;
   width: 300px;
@@ -8,8 +9,7 @@ img{
 }
 header{
   font-family: 'Amatic SC', cursive;
-  font-size: 60px;
-  text-align: center;
+  font-size: 80px;
 }
 
 h2{
